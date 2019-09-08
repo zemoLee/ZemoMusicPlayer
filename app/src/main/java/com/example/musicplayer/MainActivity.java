@@ -39,4 +39,14 @@ public class MainActivity extends AppCompatActivity {
         wlPlayer.parpared();
 
     }
+
+    /**
+     * 播放本地pcm数据
+     * @param view
+     */
+    public void playPcm(View view) {
+        String path = "/mnt/sdcard/mydream.pcm";
+        wlPlayer.playPcm(path);
+
+    }
 }

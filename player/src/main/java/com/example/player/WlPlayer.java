@@ -115,4 +115,6 @@ public class WlPlayer {
 
 
 
+    public native void  playPcm(String sourcePath);
+
 }
