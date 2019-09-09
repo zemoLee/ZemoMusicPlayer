@@ -138,9 +138,13 @@ void LJH_FFmpeg::start() {
         return;
     }
 
+    //解码之前，调用下play。  刚开始解码的时候，因为没有数据，是会阻塞的
+    ljh_audio->play();
+
+
     //读取帧
     int count=0;
-    while(1){
+    while(jhPlayerStatus!=NULL&&!jhPlayerStatus->isExit){
         AVPacket  *avPacket=av_packet_alloc();
         //从avFormatContext上下文中读取数据
         if(av_read_frame(avFormatContext,avPacket)==0){
@@ -159,7 +163,7 @@ void LJH_FFmpeg::start() {
             av_packet_free(&avPacket);
 //            //释放av
             av_free(avPacket);
-//            avPacket=NULL;
+            avPacket=NULL;
             }
             //解码完毕，释放资源
             //解码失败释放资源数据
@@ -177,6 +181,16 @@ void LJH_FFmpeg::start() {
             //释放av
             av_free(avPacket);
             avPacket=NULL;
+            //TODO  这里新增一个while循环，等待下队列中的缓存， 如果还有缓存，就不能播放. 队列有数据的时候，进入此循环等待一下
+            while(jhPlayerStatus!=NULL&& jhPlayerStatus->isExit){
+                if(ljh_audio->jhQueue->getQueueSize()>0){
+                    continue;
+                }else{
+                    jhPlayerStatus->isExit=true;
+                    break;
+                }
+            }
+
             break;
         }
     }

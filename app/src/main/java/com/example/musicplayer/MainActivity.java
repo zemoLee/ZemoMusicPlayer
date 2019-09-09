@@ -35,7 +35,11 @@ public class MainActivity extends AppCompatActivity {
      */
     public void begin(View view) {
 
-        wlPlayer.setSource("http://mpge.5nd.com/2015/2015-11-26/69708/1.mp3");
+//        wlPlayer.setSource("http://mpge.5nd.com/2015/2015-11-26/69708/1.mp3");
+        String path = "/mnt/sdcard/test_resample.mp3";
+//        String path = "/mnt/sdcard/source.wav";
+        wlPlayer.setSource(path);
+
         wlPlayer.parpared();
 
     }
@@ -45,7 +49,8 @@ public class MainActivity extends AppCompatActivity {
      * @param view
      */
     public void playPcm(View view) {
-        String path = "/mnt/sdcard/mydream.pcm";
+//        String path = "/mnt/sdcard/mydream.pcm";
+        String path = "/mnt/sdcard/test_resample2.pcm";
         wlPlayer.playPcm(path);
 
     }

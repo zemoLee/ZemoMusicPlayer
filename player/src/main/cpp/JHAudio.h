@@ -35,10 +35,31 @@ public:
     JHQueue * jhQueue=NULL;
     JHPlayerStatus *jhPlayerStatus=NULL;
 
+    //声明一个播放的线程
+    pthread_t  thread_play;
+
+    //解码包
+    AVPacket *avPacket=NULL;
+
+    //avopacket解码是否成功标志
+    int ret=-1;
+
+    //解码接收的 帧
+    AVFrame *avFrame=NULL;
+    //swr_convert中需要的Buffder, 在构造函数中进行初始化
+    uint8_t *buffer=NULL;
+
+    //采样数据大小
+    int data_size=0;
 
 public:
     LJH_Audio(JHPlayerStatus * jhPlayerStatus1);
     ~LJH_Audio();
+
+    //重采样，返回大小
+    int  resampleAudio();
+    //播放，重采样后进行播放
+    void play();
 
 };
 
